@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { currencyFormatter } from "../utilities/formatting";
 
 export const Meals = () => {
    const [loadedMeal, setLoadedMeal] = useState([]);
@@ -22,10 +23,23 @@ export const Meals = () => {
    return (
       <ul id="meals">
          {loadedMeal.map((meal) => (
-            <li key={meal.id}>
-               <h3>{meal.name}</h3>
-               <p>{meal.description}</p>
-               <p>{meal.price}</p>
+            <li className="meal-item" key={meal.id}>
+               <article>
+                  <img
+                     src={`http://localhost:3000/${meal.image}`}
+                     alt={meal.name}
+                  />
+                  <div>
+                     <h3>{meal.name}</h3>
+                     <p className="meal-item-price">
+                        {currencyFormatter.format(meal.price)}
+                     </p>
+                     <p className="meal-item-description">{meal.description}</p>
+                  </div>
+                  <p className="meal-item-actions">
+                     <button>Add to Cart</button>
+                  </p>
+               </article>
             </li>
          ))}
       </ul>
