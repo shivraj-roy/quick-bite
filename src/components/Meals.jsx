@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { currencyFormatter } from "../utilities/formatting";
+import { Button } from "../UI/Button";
 
 export const Meals = () => {
    const [loadedMeal, setLoadedMeal] = useState([]);
@@ -37,7 +38,7 @@ export const Meals = () => {
                      <p className="meal-item-description">{meal.description}</p>
                   </div>
                   <p className="meal-item-actions">
-                     <button>Add to Cart</button>
+                     <Button>Add to Cart</Button>
                   </p>
                </article>
             </li>
