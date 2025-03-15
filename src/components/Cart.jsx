@@ -41,7 +41,7 @@ const Cart = () => {
                <Button textOnly onClick={openCartHandler}>
                   Close
                </Button>
-               <Button>Order</Button>
+               {items.length > 0 && <Button>Order</Button>}
             </p>
          </ul>
       </Modal>
