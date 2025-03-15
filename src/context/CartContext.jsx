@@ -23,7 +23,7 @@ const cartReducer = (state, action) => {
       if (existingCartItem) {
          const updatedItem = {
             ...existingCartItem,
-            amount: existingCartItem.amount + action.item.amount,
+            amount: existingCartItem.amount + 1,
          };
          updatedItems = [...state.items]; // Copy the existing items in the cart...
          updatedItems[existingCartItemIndex] = updatedItem; // Add the updated item to the cart...
@@ -45,7 +45,7 @@ const cartReducer = (state, action) => {
       const existingCartItem = state.items[existingCartItemIndex];
       let updatedItems;
       if (existingCartItem.amount === 1) {
-         updatedItems = state.items.splice(existingCartItemIndex, 1);
+         updatedItems = state.items.filter((item) => item.id !== action.id);
       } else {
          const updatedItem = {
             ...existingCartItem,

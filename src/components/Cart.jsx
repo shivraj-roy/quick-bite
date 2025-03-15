@@ -4,9 +4,10 @@ import { CartContext } from "../context/CartContext";
 import { currencyFormatter } from "../utilities/formatting";
 import { Button } from "../UI/Button";
 import ActionContext from "../context/ActionContext";
+import CartItem from "./CartItem";
 
 const Cart = () => {
-   const { items } = useContext(CartContext);
+   const { items, addItem, removeItem } = useContext(CartContext);
    const { action, hideCart } = useContext(ActionContext);
 
    const cartTotal = items.reduce((acc, item) => {
@@ -16,21 +17,24 @@ const Cart = () => {
    const openCartHandler = () => {
       hideCart();
    };
+
    return (
       <Modal modalClass="cart" open={action === "cart"}>
          <h2>Cart</h2>
          <ul>
             {items.map((item) => (
-               <li key={item.id}>
-                  <div>
-                     <h3>{item.name}</h3>
-                     <div>
-                        <span>{item.amount}</span>
-                        <span>x</span>
-                        <span>{item.price}</span>
-                     </div>
-                  </div>
-               </li>
+               <CartItem
+                  key={item.id}
+                  name={item.name}
+                  amount={item.amount}
+                  price={item.price}
+                  onAdd={() => {
+                     addItem(item);
+                  }}
+                  onDeduct={() => {
+                     removeItem(item.id);
+                  }}
+               />
             ))}
             <p className="cart-total">{currencyFormatter.format(cartTotal)}</p>
             <p className="modal-action">
