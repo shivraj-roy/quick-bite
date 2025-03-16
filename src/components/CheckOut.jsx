@@ -18,18 +18,39 @@ const CheckOut = () => {
       hideCheckout();
    };
 
+   const onCheckOut = (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const orderData = Object.fromEntries(fd.entries());
+      console.log(orderData);
+      // Send orderData to the server...
+      fetch("http://localhost:3000/orders", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify({
+            customer: orderData,
+            items: items,
+         }),
+      });
+
+      // Clear the cart...
+      // Close the checkout modal...
+      hideCheckout();
+   };
+
    return (
       <Modal modalClass="checkout" open={action === "checkout"}>
-         <form action="">
+         <form onSubmit={onCheckOut}>
             <h2>Checkout</h2>
             <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
-            <Input label={"Full Name"} type={"text"} id={"full-name"} />
+            <Input label={"Full Name"} type={"text"} id={"name"} />
             <Input label={"Email"} type={"email"} id={"email"} />
-            <Input label={"Address"} type={"text"} id={"address"} />
+            <Input label={"Address"} type={"text"} id={"street"} />
             <div className="control-row">
                <Input label={"Postal Code"} type={"text"} id={"postal-code"} />
                <Input label={"City"} type={"text"} id={"city"} />
-               <Input label={"State"} type={"text"} id={"state"} />
             </div>
             <p className="modal-actions">
                <Button type="text" textOnly onClick={cancelCheckOut}>

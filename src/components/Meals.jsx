@@ -2,25 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { currencyFormatter } from "../utilities/formatting";
 import { Button } from "../UI/Button";
 import { CartContext } from "../context/CartContext";
+import useHttp from "../hooks/useHttp";
+import ErrorPage from "./ErrorPage";
+
+const config = {};
 
 export const Meals = () => {
-   const [loadedMeal, setLoadedMeal] = useState([]);
-   useEffect(() => {
-      const fetchMeal = async () => {
-         try {
-            const response = await fetch("http://localhost:3000/meals");
-            const meals = await response.json();
-            if (!response.ok) {
-               throw new Error("Something went wrong!");
-            }
-            setLoadedMeal(meals);
-         } catch (error) {
-            console.error(error);
-         }
-      };
-
-      fetchMeal();
-   }, []);
+   const {
+      data: loadedMeal = [],
+      isLoading,
+      error,
+   } = useHttp("http://localhost:3000/meals", config, []);
 
    const { addItem } = useContext(CartContext);
    const addToCartHandler = (meal) => {
@@ -31,6 +23,14 @@ export const Meals = () => {
          price: meal.price,
       });
    };
+
+   if (isLoading) {
+      return <p className="center">Loading...</p>;
+   }
+
+   if (error) {
+      return <ErrorPage title="An Error Occurred!" message={error} />;
+   }
 
    return (
       <ul id="meals">
