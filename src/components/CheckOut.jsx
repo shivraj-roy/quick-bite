@@ -6,6 +6,7 @@ import { currencyFormatter } from "../utilities/formatting";
 import Input from "../UI/Input";
 import { Button } from "../UI/Button";
 import useHttp from "../hooks/useHttp";
+import ErrorPage from "./ErrorPage";
 
 const config = {
    method: "POST",
@@ -78,6 +79,7 @@ const CheckOut = () => {
                <Input label={"Postal Code"} type={"text"} id={"postal-code"} />
                <Input label={"City"} type={"text"} id={"city"} />
             </div>
+            {error && <ErrorPage title="Failed to order!" message={error} />}
             <span className="modal-actions">{actions}</span>
          </form>
       </Modal>
