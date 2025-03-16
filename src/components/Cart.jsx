@@ -14,7 +14,7 @@ const Cart = () => {
       return acc + item.amount * item.price;
    }, 0);
 
-   const openCartHandler = () => {
+   const closeCartHandler = () => {
       hideCart();
    };
 
@@ -23,7 +23,11 @@ const Cart = () => {
    };
 
    return (
-      <Modal modalClass="cart" open={action === "cart"}>
+      <Modal
+         modalClass="cart"
+         open={action === "cart"}
+         onClose={action === "cart" ? closeCartHandler : null}
+      >
          <h2>Cart</h2>
          <ul>
             {items.map((item) => (
@@ -42,7 +46,7 @@ const Cart = () => {
             ))}
             <p className="cart-total">{currencyFormatter.format(cartTotal)}</p>
             <p className="modal-actions">
-               <Button textOnly onClick={openCartHandler}>
+               <Button textOnly onClick={closeCartHandler}>
                   Close
                </Button>
                {items.length > 0 && (
