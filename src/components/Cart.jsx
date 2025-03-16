@@ -8,7 +8,7 @@ import CartItem from "./CartItem";
 
 const Cart = () => {
    const { items, addItem, removeItem } = useContext(CartContext);
-   const { action, hideCart } = useContext(ActionContext);
+   const { action, hideCart, showCheckout } = useContext(ActionContext);
 
    const cartTotal = items.reduce((acc, item) => {
       return acc + item.amount * item.price;
@@ -16,6 +16,10 @@ const Cart = () => {
 
    const openCartHandler = () => {
       hideCart();
+   };
+
+   const GoToCheckout = () => {
+      showCheckout();
    };
 
    return (
@@ -37,11 +41,13 @@ const Cart = () => {
                />
             ))}
             <p className="cart-total">{currencyFormatter.format(cartTotal)}</p>
-            <p className="modal-action">
+            <p className="modal-actions">
                <Button textOnly onClick={openCartHandler}>
                   Close
                </Button>
-               {items.length > 0 && <Button>Order</Button>}
+               {items.length > 0 && (
+                  <Button onClick={GoToCheckout}>Order</Button>
+               )}
             </p>
          </ul>
       </Modal>
